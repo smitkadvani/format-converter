@@ -90,7 +90,7 @@ function App() {
     <div className="app">
       <header className="header">
         <h1>🔄 Format Converter</h1>
-        <p>Convert between JSON, XML, and YAML formats instantly</p>
+        <p>Convert between JSON, XML, YAML, and TOON formats instantly</p>
       </header>
 
       <main className="main-content">
@@ -106,7 +106,7 @@ function App() {
             </div>
             <textarea
               className="text-area"
-              placeholder="Paste your JSON, XML, or YAML here..."
+              placeholder="Paste your JSON, XML, YAML, or TOON here..."
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
             />
@@ -140,6 +140,7 @@ function App() {
                 <option value="json">JSON</option>
                 <option value="xml">XML</option>
                 <option value="yaml">YAML</option>
+                <option value="toon">TOON</option>
               </select>
             </div>
             <button
@@ -189,7 +190,7 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>Made with ❤️ | Supports JSON, XML, and YAML</p>
+        <p>Made with ❤️ | Supports JSON, XML, YAML, and TOON</p>
       </footer>
     </div>
   )

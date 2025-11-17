@@ -1,10 +1,10 @@
 # 🔄 Format Converter
 
-A modern, full-stack web application for detecting and converting between JSON, XML, and YAML formats with automatic format detection.
+A modern, full-stack web application for detecting and converting between JSON, XML, YAML, and TOON formats with automatic format detection.
 
 ## ✨ Features
 
-- **🔍 Automatic Format Detection**: Intelligent detection of JSON, XML, and YAML formats
+- **🔍 Automatic Format Detection**: Intelligent detection of JSON, XML, YAML, and TOON formats
 - **🔄 Bidirectional Conversion**: Convert between any supported format
 - **🎨 Modern UI**: Clean, intuitive interface inspired by popular converter tools
 - **⚡ Real-time Conversion**: Instant format conversion with visual feedback
@@ -12,6 +12,7 @@ A modern, full-stack web application for detecting and converting between JSON, 
 - **🐳 Docker Ready**: Fully containerized for easy deployment
 - **☁️ Cloud Deployment**: Single-command deployment to Google Cloud Platform
 - **✅ Bug-Free**: Robust error handling and validation
+- **🌟 TOON Format Support**: Full support for the TOON data serialization format
 
 ## 🏗️ Architecture
 
@@ -19,6 +20,7 @@ A modern, full-stack web application for detecting and converting between JSON, 
 - **Node.js + Express**: RESTful API for format detection and conversion
 - **js-yaml**: YAML parsing and generation
 - **xml2js**: XML parsing and generation
+- **@toon-format/toon**: TOON format parsing and generation
 - **CORS enabled**: Secure cross-origin requests
 
 ### Frontend
@@ -148,7 +150,7 @@ Content-Type: application/json
 
 {
   "input": "<your data>",
-  "targetFormat": "json|xml|yaml"
+  "targetFormat": "json|xml|yaml|toon"
 }
 ```
 
@@ -223,6 +225,43 @@ city: New York
 </root>
 ```
 
+### Test JSON to TOON
+
+**Input:**
+```json
+{
+  "name": "John Doe",
+  "age": 30,
+  "active": true
+}
+```
+
+**Output:**
+```toon
+name: "John Doe"
+age: 30
+active: true
+```
+
+### Test TOON to JSON
+
+**Input:**
+```toon
+# User configuration
+name: "Jane Smith"
+email: "jane@example.com"
+roles: ["admin", "user"]
+```
+
+**Output:**
+```json
+{
+  "name": "Jane Smith",
+  "email": "jane@example.com",
+  "roles": ["admin", "user"]
+}
+```
+
 ## 🗂️ Project Structure
 
 ```
@@ -288,6 +327,7 @@ This project is licensed under the MIT License.
 ## 🙏 Acknowledgments
 
 - Inspired by [jsontoon.com](https://jsontoon.com/)
+- TOON format specification: [toon-format/toon](https://github.com/toon-format/toon)
 - Built with modern web technologies
 - Designed for simplicity and reliability
 

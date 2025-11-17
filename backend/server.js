@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const yaml = require('js-yaml');
 const xml2js = require('xml2js');
+const toon = require('@toon-format/toon');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -30,6 +31,17 @@ function detectFormat(input) {
   // Check for XML
   if (trimmed.startsWith('<') && trimmed.endsWith('>')) {
     return 'xml';
+  }
+
+  // Check for TOON format
+  // TOON uses # for comments and has key-value pairs with specific syntax
+  if (trimmed.includes('=') || trimmed.match(/^[#\s]*\w+\s*:/m)) {
+    try {
+      toon.parse(trimmed);
+      return 'toon';
+    } catch (e) {
+      // Not valid TOON, continue checking
+    }
   }
 
   // Check for YAML
@@ -61,6 +73,9 @@ async function parseInput(input, format) {
       case 'yaml':
         return yaml.load(input);
 
+      case 'toon':
+        return toon.parse(input);
+
       default:
         throw new Error('Unsupported format');
     }
@@ -85,6 +100,9 @@ function convertToFormat(data, targetFormat) {
 
       case 'yaml':
         return yaml.dump(data, { indent: 2 });
+
+      case 'toon':
+        return toon.stringify(data, { indent: 2 });
 
       default:
         throw new Error('Unsupported target format');
@@ -130,10 +148,10 @@ app.post('/api/convert', async (req, res) => {
       });
     }
 
-    if (!targetFormat || !['json', 'xml', 'yaml'].includes(targetFormat.toLowerCase())) {
+    if (!targetFormat || !['json', 'xml', 'yaml', 'toon'].includes(targetFormat.toLowerCase())) {
       return res.status(400).json({
         success: false,
-        error: 'Valid target format (json, xml, yaml) is required'
+        error: 'Valid target format (json, xml, yaml, toon) is required'
       });
     }
 
@@ -143,7 +161,7 @@ app.post('/api/convert', async (req, res) => {
     if (sourceFormat === 'unknown') {
       return res.status(400).json({
         success: false,
-        error: 'Could not detect input format. Please ensure input is valid JSON, XML, or YAML.'
+        error: 'Could not detect input format. Please ensure input is valid JSON, XML, YAML, or TOON.'
       });
     }
 

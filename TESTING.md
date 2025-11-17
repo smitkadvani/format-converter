@@ -148,9 +148,88 @@ person:
 </root>
 ```
 
-### 4. Edge Cases and Error Handling
+### 4. TOON Detection and Conversion
 
-#### Test Case 4.1: Invalid JSON
+#### Test Case 4.1: TOON to JSON
+**Input:**
+```toon
+# Configuration
+name: "John Doe"
+age: 30
+active: true
+roles: ["admin", "user"]
+```
+
+**Expected Output (JSON):**
+```json
+{
+  "name": "John Doe",
+  "age": 30,
+  "active": true,
+  "roles": ["admin", "user"]
+}
+```
+
+#### Test Case 4.2: TOON to XML
+**Input:**
+```toon
+product: "Widget"
+price: 29.99
+inStock: true
+```
+
+**Expected Output (XML):**
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+  <product>Widget</product>
+  <price>29.99</price>
+  <inStock>true</inStock>
+</root>
+```
+
+#### Test Case 4.3: JSON to TOON
+**Input:**
+```json
+{
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "ssl": true
+  }
+}
+```
+
+**Expected Output (TOON):**
+```toon
+server:
+  host: "localhost"
+  port: 8080
+  ssl: true
+```
+
+#### Test Case 4.4: XML to TOON
+**Input:**
+```xml
+<root>
+  <database>
+    <name>mydb</name>
+    <timeout>30</timeout>
+  </database>
+</root>
+```
+
+**Expected Output (TOON):**
+```toon
+root:
+  database:
+    name: "mydb"
+    timeout: "30"
+```
+
+### 5. Edge Cases and Error Handling
+
+#### Test Case 5.1: Invalid JSON
 **Input:**
 ```
 {invalid json here
@@ -158,7 +237,7 @@ person:
 
 **Expected:** Error message indicating parse failure
 
-#### Test Case 4.2: Invalid XML
+#### Test Case 5.2: Invalid XML
 **Input:**
 ```
 <unclosed>tag
@@ -166,7 +245,7 @@ person:
 
 **Expected:** Error message indicating parse failure
 
-#### Test Case 4.3: Invalid YAML
+#### Test Case 5.3: Invalid YAML
 **Input:**
 ```
 invalid: yaml: structure:
@@ -175,7 +254,15 @@ invalid: yaml: structure:
 
 **Expected:** Error message indicating parse failure
 
-#### Test Case 4.4: Empty Input
+#### Test Case 5.4: Invalid TOON
+**Input:**
+```
+invalid toon [[[syntax here
+```
+
+**Expected:** Error message indicating parse failure
+
+#### Test Case 5.5: Empty Input
 **Input:**
 ```
 (empty string)
@@ -183,7 +270,7 @@ invalid: yaml: structure:
 
 **Expected:** Error message requesting input
 
-#### Test Case 4.5: Complex Nested Structure
+#### Test Case 5.6: Complex Nested Structure
 **Input:**
 ```json
 {
@@ -211,9 +298,9 @@ invalid: yaml: structure:
 
 **Expected:** Successful conversion maintaining structure integrity
 
-### 5. API Endpoint Tests
+### 6. API Endpoint Tests
 
-#### Test 5.1: Health Check
+#### Test 6.1: Health Check
 **Request:**
 ```
 GET /health
@@ -227,7 +314,7 @@ GET /health
 }
 ```
 
-#### Test 5.2: Format Detection
+#### Test 6.2: Format Detection
 **Request:**
 ```
 POST /api/detect
@@ -245,7 +332,7 @@ Content-Type: text/plain
 }
 ```
 
-#### Test 5.3: Conversion Request
+#### Test 6.3: Conversion Request
 **Request:**
 ```
 POST /api/convert
@@ -267,7 +354,7 @@ Content-Type: application/json
 }
 ```
 
-### 6. UI/UX Tests
+### 7. UI/UX Tests
 
 - [ ] Input textarea accepts text input
 - [ ] Detect Format button detects correct format
@@ -277,12 +364,13 @@ Content-Type: application/json
 - [ ] Swap button swaps input/output
 - [ ] Clear button clears input and output
 - [ ] Format selector changes target format
+- [ ] Format selector includes TOON option
 - [ ] Error messages display correctly
 - [ ] Responsive design works on mobile
 - [ ] Loading state shows during API calls
 - [ ] Buttons disable appropriately
 
-### 7. Security Tests
+### 8. Security Tests
 
 - [x] CORS configured properly
 - [x] Input size limits set (10MB)
@@ -291,7 +379,7 @@ Content-Type: application/json
 - [x] XSS protection via React
 - [x] No SQL injection (no database)
 
-### 8. Docker Tests
+### 9. Docker Tests
 
 - [ ] Backend Dockerfile builds successfully
 - [ ] Frontend Dockerfile builds successfully
@@ -300,7 +388,7 @@ Content-Type: application/json
 - [ ] Health checks pass
 - [ ] Services restart on failure
 
-### 9. Deployment Tests
+### 10. Deployment Tests
 
 - [ ] GCP deployment script runs without errors
 - [ ] Required GCP APIs are enabled
@@ -323,10 +411,13 @@ After deployment, verify:
 7. Select "XML" and convert again
 8. Test with XML input
 9. Test with YAML input
-10. Test with invalid input - should show error
-11. Test empty input - should show error
-12. Test on mobile device
-13. Test in different browsers (Chrome, Firefox, Safari)
+10. Test with TOON input - should detect and convert
+11. Convert JSON to TOON format - should work
+12. Convert TOON to other formats - should work
+13. Test with invalid input - should show error
+14. Test empty input - should show error
+15. Test on mobile device
+16. Test in different browsers (Chrome, Firefox, Safari)
 
 ## Code Quality Checks
 
@@ -339,7 +430,8 @@ After deployment, verify:
 - [x] Comments where needed
 - [x] Consistent naming conventions
 - [x] Async/await error handling with try-catch
+- [x] TOON format support integrated
 
 ## Status: ✅ Ready for Production
 
-All critical functionality has been implemented with proper error handling and validation.
+All critical functionality has been implemented with proper error handling and validation, including full TOON format support.
